@@ -36,8 +36,8 @@ class Schema
     {
         $this->version = $json['@attributes']['Version'];
 
-        foreach ($json['DataServices']['Schema'] as $item) {
-            $this->raw[$item['@attributes']['Namespace']] = $item;
+        foreach ($json['DataServices']['Schema'] as $k => $item) {
+            $this->raw[$k] = $item;
         }
 
         $this->entity_types  = new Collection();
@@ -52,19 +52,19 @@ class Schema
 
     protected function propagate()
     {
-        foreach ($this->raw['NAV.ComplexTypes']['ComplexType'] as $type) {
+        foreach ($this->raw['ComplexType'] as $type) {
             $this->complex_types[$type['@attributes']['Name']] = new ComplexType($type, $this);
         }
 
-        foreach ($this->raw['NAV']['EntityType'] as $type) {
+        foreach ($this->raw['EntityType'] as $type) {
             $this->entity_types[$type['@attributes']['Name']] = new EntityType($type, $this);
         }
 
-        foreach ($this->raw['NAV']['EntityContainer']['EntitySet'] as $set) {
+        foreach ($this->raw['EntityContainer']['EntitySet'] as $set) {
             $this->entity_sets[$set['@attributes']['Name']] = new EntitySet($set, $this);
         }
 
-        foreach ($this->raw['NAV']['Action'] as $action) {
+        foreach ($this->raw['Action'] as $action) {
             $this->actions[$action['@attributes']['Name']] = new Action($action, $this);
         }
     }
@@ -220,5 +220,11 @@ class Schema
     public function propertyIsNullable(string $model, string $property, $default = false)
     {
         return $this->propertyIs($model, $property, 'nullable', $default);
+    }
+
+    public function __debugInfo()
+    {
+        // Comment return out to enable full debug (warning: its a heavy beast)
+        return ['Schema is hidden from debug. See Schema::__debugInfo() to enable.'];
     }
 }

@@ -29,6 +29,10 @@ class TypeOf extends Rule
 
         $this->key = "typeof:$type";
 
+        if ($type == 'date') {
+            $type = 'datetime';
+        }
+
         switch ($type) {
             case 'required':
                 return !is_null($value);
@@ -46,8 +50,12 @@ class TypeOf extends Rule
                 return is_bool($value);
             case 'date':
                 return !!\DateTime::createFromFormat('Y-m-d', $value);
+            case 'datetime':
+                return !!\DateTime::createFromFormat('Y-m-d\TH:i:s.v\Z', $value);
             case 'null':
                 return is_null($value);
+            case '':
+                return true;
             default:
                 throw new \Exception("Unknown validation type $type in TypeOf rule");
         }

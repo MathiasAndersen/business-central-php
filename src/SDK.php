@@ -57,9 +57,9 @@ class SDK
     protected $options = [
         // Credentials
         'environment'             => 'production',
-        'client_id' => null,
-        'client_secret' => null,
-        'scope' => null,
+        'client_id'               => null,
+        'client_secret'           => null,
+        'scope'                   => null,
 
         // Defaults
         'default_collection_size' => 20,
@@ -114,7 +114,7 @@ class SDK
         $this->token_expired = time() + ($reponse->expires_in - 10);
 
         $this->client = new Client([
-            'base_uri' => "https://api.businesscentral.dynamics.com/v2.0/$this->tenant/$this->environment/ODataV4/",
+            'base_uri' => "https://api.businesscentral.dynamics.com/v2.0/$this->tenant/$this->environment/api/v2.0/",
             'headers'  => [
                 'User-Agent'    => 'Business Central SDK',
                 'Authorization' => "Bearer $this->token",
@@ -145,7 +145,7 @@ class SDK
      */
     public function company(string $id)
     {
-        return $this->query()->navigateTo('Company')->find($id);
+        return $this->query()->navigateTo('companies')->find($id);
     }
 
     /**
@@ -154,7 +154,7 @@ class SDK
      */
     public function companies()
     {
-        return $this->query()->navigateTo('Company')->fetch();
+        return $this->query()->navigateTo('companies')->fetch();
     }
 
     public function fetchMetadata()
