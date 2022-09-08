@@ -29,9 +29,9 @@ class TypeOf extends Rule
 
         $this->key = "typeof:$type";
 
-        /*if ($type == 'date') {
-            $type = 'datetime';
-        }*/
+        if ($type == 'date') {
+            return true;
+        }
 
         switch ($type) {
             case 'required':
