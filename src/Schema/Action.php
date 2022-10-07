@@ -62,7 +62,7 @@ class Action
             case 'return_type':
                 return $this->{$name};
             case 'fqn':
-                return "NAV.$this->name";
+                return "Microsoft.NAV.$this->name";
         }
     }
 }
