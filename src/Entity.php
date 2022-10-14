@@ -45,7 +45,7 @@ class Entity implements \ArrayAccess, \JsonSerializable, Jsonable, Arrayable
     protected $relations  = [];
     protected $original   = [];
     protected $dirty      = [];
-    protected $type;
+    protected $entityType;
 
     protected $etag;
 
@@ -54,7 +54,7 @@ class Entity implements \ArrayAccess, \JsonSerializable, Jsonable, Arrayable
     public function __construct(?array $attributes, Builder $query, EntityType $type)
     {
         $this->query = $query;
-        $this->type  = $type;
+        $this->entityType  = $type;
 
         $this->setAttributes($attributes ?: []);
     }
@@ -79,7 +79,7 @@ class Entity implements \ArrayAccess, \JsonSerializable, Jsonable, Arrayable
      */
     public function getEntityType()
     {
-        return $this->type;
+        return $this->entityType;
     }
 
     /**
@@ -185,7 +185,7 @@ class Entity implements \ArrayAccess, \JsonSerializable, Jsonable, Arrayable
             $response = $this->query->post($this->attributes);
 
             $this->setAttributes($response);
-            $this->query->navigateTo($entity_set->name ?? Pluralizer::plural($this->type->schema_type), $this->identifiers());
+            $this->query->navigateTo($entity_set->name ?? Pluralizer::plural($this->entityType->schema_type), $this->identifiers());
 
         }
 
