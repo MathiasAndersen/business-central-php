@@ -108,6 +108,19 @@ class EntityCollection implements \ArrayAccess, \Iterator, \JsonSerializable, Js
     }
 
     /**
+     * Return the last index of the collection
+     *
+     * @param null $default
+     *
+     * @return Entity|null|mixed
+     * @author Morten K. Harders 🐢 <mh@coolrunner.dk>
+     */
+    public function last($default = null)
+    {
+        return Arr::last($this->collection) ?? $default;
+    }
+
+    /**
      * @param string|string[] $identifier
      * @param null $default
      *
